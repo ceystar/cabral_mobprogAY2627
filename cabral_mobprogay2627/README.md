@@ -1,3 +1,4 @@
 # cabral_mobprogay2627
 
-A new Flutter project.
+Lab Activity 1: Discuss how you integrate the Image to the newsfeed_card.dart and make it dynamic whether it has image or not.
+	
