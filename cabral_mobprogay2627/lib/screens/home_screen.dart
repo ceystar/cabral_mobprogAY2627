@@ -1,8 +1,9 @@
 ﻿import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../constants.dart';
-import '../screens/newsfeed_screen.dart';
 import '../widgets/custom_text.dart';
+import 'newsfeed_screen.dart';
+import 'notification_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -22,7 +23,7 @@ class _HomeScreenState extends State<HomeScreen> {
         shadowColor: FB_TEXT_COLOR_WHITE,
         elevation: 2,
         title: CustomText(
-          text: 'facebook',
+          text: _selectedIndex == 0 ? 'facebook' : 'Notifications',
           fontSize: ScreenUtil().setSp(25),
           color: FB_PRIMARY,
           fontFamily: 'Klavika',
@@ -32,7 +33,7 @@ class _HomeScreenState extends State<HomeScreen> {
         controller: _pageController,
         children: const <Widget>[
           NewsFeedScreen(),
-          Center(child: Text('Notifications')),
+          NotificationScreen(),
         ],
         onPageChanged: (page) {
           setState(() {
@@ -45,10 +46,17 @@ class _HomeScreenState extends State<HomeScreen> {
         showUnselectedLabels: false,
         onTap: _onTappedBar,
         items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
           BottomNavigationBarItem(
             icon: Icon(Icons.notifications),
             label: 'Notifications',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: 'Profile',
           ),
         ],
         selectedItemColor: FB_PRIMARY,
@@ -58,9 +66,18 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void _onTappedBar(int value) {
+    if (value == 2) return;
+
     setState(() {
       _selectedIndex = value;
     });
+
     _pageController.jumpToPage(value);
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
   }
 }
